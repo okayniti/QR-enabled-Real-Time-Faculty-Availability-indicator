@@ -26,49 +26,73 @@ def faculty_status(faculty_id):
     prev_available = 1
     status = predict_availability(day, hour, scheduled_class, has_meeting, prev_available)
 
-    # Improved UI HTML content
+    # Enhanced, creative UI
+    color = "#38d39f" if status == 1 else "#ff5353"
+    emoji = "✅" if status == 1 else "⛔"
+    msg = "1 - Available ✔️" if status == 1 else "0 - Not Available ❌"
+    subtitle = "You can meet the faculty now!" if status == 1 else "Faculty is not available for in-person queries."
     html_content = f'''
+    <!DOCTYPE html>
     <html>
     <head>
-        <title>Faculty Availability Status</title>
+        <title>Faculty Status</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             body {{
-                font-family: Arial, sans-serif;
-                background-color: #f4f6f7;
-                color: #333;
+                background: linear-gradient(135deg, #f7fafc 0%, #c3e1fc 100%);
+                font-family: 'Segoe UI', Arial, sans-serif;
                 text-align: center;
-                padding: 50px;
+                padding: 40px;
+                margin: 0;
             }}
-            .status-box {{
+            .status-card {{
+                margin: 80px auto 20px auto;
                 display: inline-block;
-                padding: 40px 60px;
-                border-radius: 15px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                background-color: {'#28a745' if status == 1 else '#dc3545'};
-                color: white;
-                font-size: 48px;
+                background: white;
+                border-radius: 24px;
+                box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+                padding: 48px 40px;
+            }}
+            .msg {{
+                font-size: 2.6rem;
+                color: {color};
+                margin: 16px 0 12px 0;
                 font-weight: bold;
             }}
-            .faculty-info {{
-                font-size: 32px;
-                margin-bottom: 20px;
+            .emoji {{
+                font-size: 4.5rem;
+                margin: 10px 0 20px 0;
             }}
-            .footer {{
-                margin-top: 40px;
-                font-size: 16px;
-                color: #666;
+            .sub {{
+                font-size: 1rem;
+                color: #72787d;
+                margin-bottom: 30px;
+            }}
+            .faculty {{
+                font-size: 1.25rem;
+                color: #0474b8;
+                margin-bottom: 24px;
+            }}
+            .timestamp {{
+                font-size: 1rem;
+                color: #B2B8BE;
+                margin-top: 25px;
             }}
         </style>
     </head>
     <body>
-        <div class="faculty-info">Faculty ID: {faculty_id}</div>
-        <div class="status-box">{status} - {'Available' if status == 1 else 'Not Available'}</div>
-        <div class="footer">Updated at: {now.strftime('%Y-%m-%d %H:%M:%S')}</div>
+        <div class="status-card">
+            <div class="faculty">Faculty ID: {faculty_id}</div>
+            <div class="emoji">{emoji}</div>
+            <div class="msg">{msg}</div>
+            <div class="sub">{subtitle}</div>
+            <div class="timestamp">Updated at: {now.strftime('%Y-%m-%d %H:%M:%S')}</div>
+        </div>
     </body>
     </html>
     '''
-
     return html_content
 
 if __name__ == '__main__':
     app.run(debug=True)
+
